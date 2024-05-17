@@ -1,10 +1,10 @@
 <template>
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid" style="padding-left: 55px; padding-right: 55px;">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container" style="padding-left: 55px; padding-right: 55px;">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <router-link class="nav-link" active-class="active" :to="{ name: 'pk_index' }"> King Of Bots</router-link>
+        <router-link class="navbar-nav me-auto mb-2 mb-lg-0 nav-link" active-class="active" :to="{ name: 'pk_index' }"> King Of Bots</router-link>
         <div class="collapse navbar-collapse" id="navbarText">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
@@ -22,7 +22,7 @@
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Wa1ess
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu navbar-dark bg-dark">
                 <router-link class="nav-link" active-class="active" :to="{ name: 'user_Bot_index' }"> 我的Bot</router-link>
                 <router-link class="nav-link" active-class="active" :to="{ name: 'pk_index' }"> 退出</router-link>
               </ul>
@@ -37,8 +37,6 @@
 
 
 <script>
-
-
 
 </script>
 
