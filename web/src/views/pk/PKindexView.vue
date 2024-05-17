@@ -1,6 +1,5 @@
 <template>
     <PlayGround>
-        对战
     </PlayGround>
 </template>
 
