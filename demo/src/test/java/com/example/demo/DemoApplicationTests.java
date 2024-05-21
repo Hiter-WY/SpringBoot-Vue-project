@@ -10,10 +10,6 @@ class DemoApplicationTests {
 
     @Test
     void contextLoads() {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        System.out.println(passwordEncoder.encode("wy"));
-        System.out.println(passwordEncoder.encode("zx"));
-        System.out.println(passwordEncoder.encode("wy3"));
     }
 
 }

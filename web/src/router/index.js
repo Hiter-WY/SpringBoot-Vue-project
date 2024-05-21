@@ -90,7 +90,7 @@ router.beforeEach((to, from, next) => {
 
   if (jwt_token) {
     store.commit("updateToken", jwt_token);
-    store.dispatch("getInfo", {
+    store.dispatch("getinfo", {
       success() {},
       error() {
         alert("token无效,请重新登录!");
