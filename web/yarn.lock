@@ -1925,6 +1925,11 @@ accepts@~1.3.4, accepts@~1.3.5, accepts@~1.3.8:
     mime-types "~2.1.34"
     negotiator "0.6.3"
 
+ace-builds@*, ace-builds@^1.34.2:
+  version "1.34.2"
+  resolved "https://registry.npmjs.org/ace-builds/-/ace-builds-1.34.2.tgz"
+  integrity sha512-wiOZYuxyOSYfZzDasQTe+ZWmRlYxXSJM/kMKZ/bSqO1VgrBl+PaaTz/Sc+y7hXCKAUj3syUdpwxQyvwv9vQe6w==
+
 acorn-import-assertions@^1.9.0:
   version "1.9.0"
   resolved "https://registry.npmjs.org/acorn-import-assertions/-/acorn-import-assertions-1.9.0.tgz"
@@ -5426,6 +5431,11 @@ requires-port@^1.0.0:
   resolved "https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz"
   integrity sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==
 
+resize-observer-polyfill@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.npmjs.org/resize-observer-polyfill/-/resize-observer-polyfill-1.5.1.tgz"
+  integrity sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==
+
 resolve-from@^4.0.0:
   version "4.0.0"
   resolved "https://registry.npmjs.org/resolve-from/-/resolve-from-4.0.0.tgz"
@@ -6253,7 +6263,7 @@ vue-template-es2015-compiler@^1.9.0:
   resolved "https://registry.npmjs.org/vue-template-es2015-compiler/-/vue-template-es2015-compiler-1.9.1.tgz"
   integrity sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==
 
-vue@*, "vue@^2 || ^3.2.13", vue@^3.2.0, vue@^3.2.13, vue@3.4.27:
+vue@*, "vue@^2 || ^3.2.13", vue@^3, vue@^3.2.0, vue@^3.2.13, vue@3.4.27:
   version "3.4.27"
   resolved "https://registry.npmjs.org/vue/-/vue-3.4.27.tgz"
   integrity sha512-8s/56uK6r01r1icG/aEOHqyMVxd1bkYcSe9j8HcKtr/xTOFWvnzIVTehNW+5Yt89f+DLBe4A569pnZLS5HzAMA==
@@ -6263,6 +6273,13 @@ vue@*, "vue@^2 || ^3.2.13", vue@^3.2.0, vue@^3.2.13, vue@3.4.27:
     "@vue/runtime-dom" "3.4.27"
     "@vue/server-renderer" "3.4.27"
     "@vue/shared" "3.4.27"
+
+vue3-ace-editor@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.npmjs.org/vue3-ace-editor/-/vue3-ace-editor-2.2.4.tgz"
+  integrity sha512-FZkEyfpbH068BwjhMyNROxfEI8135Sc+x8ouxkMdCNkuj/Tuw83VP/gStFQqZHqljyX9/VfMTCdTqtOnJZGN8g==
+  dependencies:
+    resize-observer-polyfill "^1.5.1"
 
 vuex@^4.0.0:
   version "4.1.0"
