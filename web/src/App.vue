@@ -1,20 +1,20 @@
 <template>
   <div>
     <NavBar></NavBar>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
 <script>
-import NavBar from './components/NavBar.vue'
-import "bootstrap/dist/css/bootstrap.min.css"
-import "bootstrap/dist/js/bootstrap"
+import NavBar from "./components/NavBar.vue";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap";
 // import $ from 'jquery'
 export default {
   components: {
-    NavBar
+    NavBar,
   },
-  setup(){
+  setup() {
     // $.ajax({
     //   url: "http://localhost:3000/user/account/token/",
     //   type: "post",
@@ -29,7 +29,6 @@ export default {
     //     console.log(resp);
     //   }
     // })
-
     // $.ajax({
     //   url: "http://localhost:3000/user/account/info/",
     //   type:"get",
@@ -43,7 +42,6 @@ export default {
     //     console.log(resp);
     //   }
     // })
-
     // $.ajax({
     //   url:"http://localhost:3000/user/account/register/",
     //   type:"post",
@@ -59,13 +57,20 @@ export default {
     //     console.log(resp);
     //   }
     // })
-  }
-}
+  },
+};
 </script>
 
 <style>
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
 body {
   background-image: url("@/assets/images/1.jpeg");
   background-size: cover;
+  background-repeat: no-repeat;
 }
 </style>

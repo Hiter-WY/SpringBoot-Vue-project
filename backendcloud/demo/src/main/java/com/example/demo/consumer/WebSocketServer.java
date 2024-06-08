@@ -35,31 +35,30 @@ public class WebSocketServer {
     final public static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     private User user;
     private Session session = null;
+
+    public static UserMapper userMapper;
+    public static RecordMapper recordMapper;
     private static BotMapper botMapper;
     public static RestTemplate restTemplate;
-    public static RecordMapper recordMapper;
-    private static UserMapper userMapper;
-
     public Game game = null;
     private final static String addPlayerUrl = "http://127.0.0.1:3001/player/add/";
-    private final static String removePlayerUrl = "http://127.0.0.1:3001/player/remove/";
-    private Integer botId;
+    private final static String removePlayerurl = "http://127.0.0.1:3001/player/remove/";
 
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
         WebSocketServer.userMapper = userMapper;
     }
     @Autowired
-    public void setRecordMapper(RecordMapper recordMapper){
+    public void setRecordMapper(RecordMapper recordMapper) {
         WebSocketServer.recordMapper = recordMapper;
     }
     @Autowired
-    public  void setRestTemplate(RestTemplate restTemplate){
-        WebSocketServer.restTemplate = restTemplate;
+    public void setBotMapper(BotMapper botMapper) {
+        WebSocketServer.botMapper = botMapper;
     }
     @Autowired
-    public void setBotMapper(BotMapper botMapper){
-        WebSocketServer.botMapper = botMapper;
+    public void setRestTemplate(RestTemplate restTemplate) {
+        WebSocketServer.restTemplate = restTemplate;
     }
 
     @OnOpen
@@ -83,15 +82,13 @@ public class WebSocketServer {
         System.out.println("disconnected!");
         if (this.user != null) {
             users.remove(this.user.getId());
-
         }
     }
 
-    public static void startGame(Integer aId , Integer aBotId ,Integer bId, Integer bBotId){
-        User a = userMapper.selectById(aId);
-        Bot botA = botMapper.selectById(aBotId);
-        User b = userMapper.selectById(bId);
-        Bot botB = botMapper.selectById(bBotId);
+    public static void startGame(Integer aId, Integer aBotId, Integer bId, Integer bBotId) {
+        User a = userMapper.selectById(aId), b = userMapper.selectById(bId);
+        Bot botA = botMapper.selectById(aBotId), botB = botMapper.selectById(bBotId);
+
         Game game = new Game(
                 13,
                 14,
@@ -102,8 +99,10 @@ public class WebSocketServer {
                 botB
         );
         game.createMap();
-        if(users.get(a.getId()) != null) users.get(a.getId()).game = game;
-        if(users.get(b.getId()) != null) users.get(b.getId()).game = game;
+        if (users.get(a.getId()) != null)
+            users.get(a.getId()).game = game;
+        if (users.get(b.getId()) != null)
+            users.get(b.getId()).game = game;
 
         game.start();
 
@@ -121,7 +120,7 @@ public class WebSocketServer {
         respA.put("opponent_username", b.getUsername());
         respA.put("opponent_photo", b.getPhoto());
         respA.put("game", respGame);
-        if(users.get(a.getId()) != null)
+        if (users.get(a.getId()) != null)
             users.get(a.getId()).sendMessage(respA.toJSONString());
 
         JSONObject respB = new JSONObject();
@@ -129,35 +128,33 @@ public class WebSocketServer {
         respB.put("opponent_username", a.getUsername());
         respB.put("opponent_photo", a.getPhoto());
         respB.put("game", respGame);
-        if(users.get(b.getId()) != null)
+        if (users.get(b.getId()) != null)
             users.get(b.getId()).sendMessage(respB.toJSONString());
     }
 
     private void startMatching(Integer botId) {
-        this.botId = botId;
         System.out.println("start matching!");
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
-        data.add("user_id",this.user.getId().toString());
-        data.add("rating",this.user.getRating().toString());
-//        System.out.println("bot id : " + botId);
+        data.add("user_id", this.user.getId().toString());
+        data.add("rating", this.user.getRating().toString());
         data.add("bot_id", botId.toString());
-        restTemplate.postForObject(addPlayerUrl,data,String.class);
+        restTemplate.postForObject(addPlayerUrl, data, String.class);
     }
 
     private void stopMatching() {
         System.out.println("stop matching");
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
-        data.add("user_id",this.user.getId().toString());
-        restTemplate.postForObject(removePlayerUrl,data,String.class);
+        data.add("user_id", this.user.getId().toString());
+        restTemplate.postForObject(removePlayerurl, data, String.class);
     }
 
     private void move(int direction) {
+        System.out.println("move " + direction);
         if (game.getPlayerA().getId().equals(user.getId())) {
-            if(game.getPlayerA().getBotId().equals(-1))
+            if (game.getPlayerA().getBotId().equals(-1))  // 亲自出马
                 game.setNextStepA(direction);
-
         } else if (game.getPlayerB().getId().equals(user.getId())) {
-            if(game.getPlayerB().getBotId().equals(-1))
+            if (game.getPlayerB().getBotId().equals(-1))  // 亲自出马
                 game.setNextStepB(direction);
         }
     }
