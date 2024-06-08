@@ -3,8 +3,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.example.demo.consumer.utils.Game;
 import com.example.demo.consumer.utils.JwtAuthentication;
+import com.example.demo.mapper.BotMapper;
 import com.example.demo.mapper.RecordMapper;
 import com.example.demo.mapper.UserMapper;
+import com.example.demo.pojo.Bot;
 import com.example.demo.pojo.Record;
 import com.example.demo.pojo.User;
 import com.example.demo.service.user.bot.RemoveService;
@@ -33,13 +35,15 @@ public class WebSocketServer {
     final public static ConcurrentHashMap<Integer, WebSocketServer> users = new ConcurrentHashMap<>();
     private User user;
     private Session session = null;
-    private static RestTemplate restTemplate;
+    private static BotMapper botMapper;
+    public static RestTemplate restTemplate;
     public static RecordMapper recordMapper;
     private static UserMapper userMapper;
 
-    private Game game = null;
+    public Game game = null;
     private final static String addPlayerUrl = "http://127.0.0.1:3001/player/add/";
     private final static String removePlayerUrl = "http://127.0.0.1:3001/player/remove/";
+    private Integer botId;
 
     @Autowired
     public void setUserMapper(UserMapper userMapper) {
@@ -52,6 +56,10 @@ public class WebSocketServer {
     @Autowired
     public  void setRestTemplate(RestTemplate restTemplate){
         WebSocketServer.restTemplate = restTemplate;
+    }
+    @Autowired
+    public void setBotMapper(BotMapper botMapper){
+        WebSocketServer.botMapper = botMapper;
     }
 
     @OnOpen
@@ -79,10 +87,20 @@ public class WebSocketServer {
         }
     }
 
-    public static void startGame(Integer aId, Integer bId){
+    public static void startGame(Integer aId , Integer aBotId ,Integer bId, Integer bBotId){
         User a = userMapper.selectById(aId);
+        Bot botA = botMapper.selectById(aBotId);
         User b = userMapper.selectById(bId);
-        Game game = new Game(13, 14, 20, a.getId(), b.getId());
+        Bot botB = botMapper.selectById(bBotId);
+        Game game = new Game(
+                13,
+                14,
+                20,
+                a.getId(),
+                botA,
+                b.getId(),
+                botB
+        );
         game.createMap();
         if(users.get(a.getId()) != null) users.get(a.getId()).game = game;
         if(users.get(b.getId()) != null) users.get(b.getId()).game = game;
@@ -115,11 +133,14 @@ public class WebSocketServer {
             users.get(b.getId()).sendMessage(respB.toJSONString());
     }
 
-    private void startMatching() {
+    private void startMatching(Integer botId) {
+        this.botId = botId;
         System.out.println("start matching!");
         MultiValueMap<String, String> data = new LinkedMultiValueMap<>();
         data.add("user_id",this.user.getId().toString());
         data.add("rating",this.user.getRating().toString());
+//        System.out.println("bot id : " + botId);
+        data.add("bot_id", botId.toString());
         restTemplate.postForObject(addPlayerUrl,data,String.class);
     }
 
@@ -132,9 +153,12 @@ public class WebSocketServer {
 
     private void move(int direction) {
         if (game.getPlayerA().getId().equals(user.getId())) {
-            game.setNextStepA(direction);
+            if(game.getPlayerA().getBotId().equals(-1))
+                game.setNextStepA(direction);
+
         } else if (game.getPlayerB().getId().equals(user.getId())) {
-            game.setNextStepB(direction);
+            if(game.getPlayerB().getBotId().equals(-1))
+                game.setNextStepB(direction);
         }
     }
 
@@ -144,7 +168,7 @@ public class WebSocketServer {
         JSONObject data = JSONObject.parseObject(message);
         String event = data.getString("event");
         if ("start-matching".equals(event)) {
-            startMatching();
+            startMatching(data.getInteger("bot_id"));
         } else if ("stop-matching".equals(event)) {
             stopMatching();
         } else if ("move".equals(event)) {
