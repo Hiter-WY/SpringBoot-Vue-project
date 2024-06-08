@@ -107,7 +107,7 @@
 import { useRoute } from "vue-router";
 import { computed } from "vue";
 import { useStore } from "vuex";
-
+import router from "@/router/index";
 export default {
   setup() {
     const store = useStore();
@@ -115,9 +115,17 @@ export default {
     let route_name = computed(() => route.name);
 
     const logout = () => {
-      store.dispatch("logout");
+      store
+        .dispatch("logout")
+        .then(() => {
+          // 登出操作完成后，导航到登录页面
+          router.push({ name: "user_account_login" });
+        })
+        .catch((error) => {
+          // 处理可能发生的错误
+          console.error("Logout failed: ", error);
+        });
     };
-
     return {
       route_name,
       logout,

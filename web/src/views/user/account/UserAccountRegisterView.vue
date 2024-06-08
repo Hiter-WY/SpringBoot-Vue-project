@@ -1,56 +1,47 @@
 <template>
-  <ContentField>
-    <div class="row justify-content-md-center">
-      <div class="col-3">
-        <form @submit.prevent="register">
-          <div class="mb-3">
-            <label for="username" class="form-label">用户名</label>
-            <input
-              v-model="username"
-              type="text"
-              class="form-control"
-              id="username"
-              placeholder="请输入用户名"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="password" class="form-label">密码</label>
-            <input
-              v-model="password"
-              type="password"
-              class="form-control"
-              id="password"
-              placeholder="请输入密码"
-            />
-          </div>
-          <div class="mb-3">
-            <label for="confirmedPassword" class="form-label">确认密码</label>
-            <input
-              v-model="confirmedPassword"
-              type="password"
-              class="form-control"
-              id="confirmedPassword"
-              placeholder="请再次输入密码"
-            />
-          </div>
-          <div class="error-message">{{ error_message }}</div>
-          <button type="submit" class="btn btn-primary">提交</button>
-        </form>
-      </div>
+  <div class="register-wrapper">
+    <div class="register-container">
+      <form @submit.prevent="register" class="register-form">
+        <h3 class="register-title">Register</h3>
+        <div class="input-group">
+          <input
+            v-model="username"
+            type="text"
+            class="form-control"
+            id="username"
+            placeholder="username"
+          />
+        </div>
+        <div class="input-group">
+          <input
+            v-model="password"
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="password"
+          />
+        </div>
+        <div class="input-group">
+          <input
+            v-model="confirmedPassword"
+            type="password"
+            class="form-control"
+            id="confirmedPassword"
+            placeholder="confirm password"
+          />
+        </div>
+        <div class="error-message">{{ error_message }}</div>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
     </div>
-  </ContentField>
+  </div>
 </template>
-
 <script>
-import ContentField from "../../../components/ContentField.vue";
 import { ref } from "vue";
-import router from "../../../router/index";
+import router from "@/router/index";
 import $ from "jquery";
 
 export default {
-  components: {
-    ContentField,
-  },
   setup() {
     let username = ref("");
     let password = ref("");
@@ -86,13 +77,81 @@ export default {
   },
 };
 </script>
-
 <style scoped>
-button {
-  width: 100%;
+body {
+  background: linear-gradient(to right, #e0c3fc, #8ec5fc);
+  height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-div.error-message {
+.register-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.register-container {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 500px;
+  height: 500px;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: space-between;
+}
+
+.register-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 30px;
+  font-weight: bold;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.form-control {
+  border: none;
+  border-bottom: 1px solid #ccc;
+  border-radius: 0;
+  padding: 10px;
+  box-shadow: none;
+}
+
+.form-control:focus {
+  border-bottom: 1px solid #007bff;
+  box-shadow: none;
+}
+
+.btn-primary {
+  background: linear-gradient(to right, #74ebd5, #acb6e5);
+  border: none;
+  color: white;
+  padding: 12px;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-size: 16px;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(to right, #acb6e5, #74ebd5);
+}
+
+.error-message {
   color: red;
+  margin-bottom: 15px;
+  text-align: center;
 }
 </style>
