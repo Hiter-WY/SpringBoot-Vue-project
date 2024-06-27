@@ -30,6 +30,15 @@
             placeholder="confirm password"
           />
         </div>
+        <div class="input-group">
+          <input
+            v-model="email"
+            type="text"
+            class="form-control"
+            id="email"
+            placeholder="please input your email"
+          />
+        </div>
         <div class="error-message">{{ error_message }}</div>
         <button type="submit" class="btn btn-primary">Register</button>
       </form>
@@ -46,8 +55,14 @@ export default {
     let username = ref("");
     let password = ref("");
     let confirmedPassword = ref("");
+    let email = ref("");
     let error_message = ref("");
-
+    console.log(
+      username.value,
+      password.value,
+      confirmedPassword.value,
+      email.value
+    );
     const register = () => {
       $.ajax({
         url: "http://127.0.0.1:3000/user/account/register/",
@@ -56,6 +71,7 @@ export default {
           username: username.value,
           password: password.value,
           confirmedPassword: confirmedPassword.value,
+          email: email.value,
         },
         success(resp) {
           if (resp.error_message === "success") {
@@ -71,6 +87,7 @@ export default {
       username,
       password,
       confirmedPassword,
+      email,
       error_message,
       register,
     };

@@ -51,7 +51,7 @@
         </ul>
         <ul class="navbar-nav" v-if="$store.state.user.is_login">
           <li class="nav-item dropdown">
-            <a
+            <!-- <a
               class="nav-link dropdown-toggle"
               href="#"
               role="button"
@@ -71,11 +71,50 @@
               <router-link
                 class="nav-link"
                 active-class="active"
+                :to="{ name: 'user_account_info' }"
+              >
+                我的信息</router-link
+              >
+              <router-link
+                class="nav-link"
+                active-class="active"
                 @click="logout"
                 :to="{ name: 'pk_index' }"
               >
                 退出</router-link
               >
+            </ul> -->
+
+            <ul class="route-menu navbar-dark bg-dark">
+              <!-- <li>{{ $store.state.user.username }}</li> -->
+              <li>
+                <router-link
+                  class="nav-link"
+                  active-class="active"
+                  :to="{ name: 'user_Bot_index' }"
+                >
+                  我的Bot</router-link
+                >
+              </li>
+              <li>
+                <router-link
+                  class="nav-link"
+                  active-class="active"
+                  :to="{ name: 'user_account_info' }"
+                >
+                  我的信息</router-link
+                >
+              </li>
+              <li>
+                <router-link
+                  class="nav-link"
+                  active-class="active"
+                  @click="logout"
+                  :to="{ name: 'pk_index' }"
+                >
+                  退出</router-link
+                >
+              </li>
             </ul>
           </li>
         </ul>
@@ -134,4 +173,16 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.route-menu {
+  color: #fff;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.route-menu li {
+  list-style-type: none;
+}
+</style>

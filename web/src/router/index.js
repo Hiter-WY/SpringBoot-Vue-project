@@ -7,6 +7,7 @@ import UserBotIndexView from "../views/user/bots/UserBotindexView.vue";
 import NotFound from "../views/error/NotFound.vue";
 import UserAccountLoginView from "../views/user/account/UserAccountLoginView";
 import UserAccountRegisterView from "../views/user/account/UserAccountRegisterView";
+import UserInfoView from "../views/user/account/UserInfoView";
 import store from "../store/index";
 
 const routes = [
@@ -75,6 +76,14 @@ const routes = [
     },
   },
   {
+    path: "/user/account/info/",
+    name: "user_account_info",
+    component: UserInfoView,
+    meta: {
+      requestAuth: false,
+    },
+  },
+  {
     path: "/404/",
     name: "404",
     component: NotFound,
@@ -103,7 +112,7 @@ router.beforeEach((to, from, next) => {
       success() {},
       error() {
         alert("token无效,请重新登录!");
-        router.push({ name: "userLogin" });
+        router.push({ name: "user_account_login" });
         localStorage.removeItem("jwt_token");
       },
     });
@@ -116,7 +125,7 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       alert("请先进行登录！");
-      next({ name: "userLogin" });
+      next({ name: "user_account_login" });
     }
   } else {
     next();

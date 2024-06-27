@@ -7,14 +7,29 @@ export default {
     photo: "",
     token: "",
     is_login: false,
+    rating: 0,
+    email: "",
   },
   getters: {},
   mutations: {
+    // updateUser(state, user) {
+    //   state.id = user.id;
+    //   state.username = user.username;
+    //   state.photo = user.photo;
+    //   // 更新 rating
+    // },
+    updateEmail(state, email) {
+      state.email = email;
+    },
+    updateUserPhoto(state, photoUrl) {
+      state.photo = photoUrl;
+    },
     updateUser(state, user) {
       state.id = user.id;
       state.username = user.username;
       state.photo = user.photo;
       state.is_login = user.is_login;
+      state.rating = user.rating;
     },
     updateToken(state, token) {
       state.token = token;
@@ -25,6 +40,8 @@ export default {
       state.photo = "";
       state.token = "";
       state.is_login = false;
+      state.rating = 0;
+      state.email = "";
     },
   },
   actions: {

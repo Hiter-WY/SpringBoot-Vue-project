@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class RegisterServiceImpl implements RegisterService {
@@ -20,7 +22,7 @@ public class RegisterServiceImpl implements RegisterService {
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Override
-    public Map<String, String> register(String username, String password, String confirmedPassword) {
+    public Map<String, String> register(String username, String password, String confirmedPassword, String email) {
         Map<String,String> map = new HashMap<>();
         if (username == null) {
             map.put("error_message", "用户名不能为空");
@@ -57,6 +59,20 @@ public class RegisterServiceImpl implements RegisterService {
             return map;
         }
 
+        if(email == null){
+            map.put("error_message", "邮箱不能空");
+            return map;
+        }
+
+        String emailRegex = "^([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6})*$";
+        Pattern pattern = Pattern.compile(emailRegex);
+        Matcher matcher = pattern.matcher(email);
+        if (!matcher.matches()) {
+            map.put("error_message", "邮箱格式不正确");
+            System.out.printf("t1");
+            return map;
+        }
+
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("username", username);
         List<User> users = userMapper.selectList(queryWrapper);
@@ -66,8 +82,8 @@ public class RegisterServiceImpl implements RegisterService {
         }
 
         String encodedPassword = passwordEncoder.encode(password);
-        String photo = "https://cdn.acwing.com/media/user/profile/photo/1_lg_844c66b332.jpg";
-        User user = new User(null, username, encodedPassword, photo,1500);
+        String photo = "https://cdn.acwing.com/media/article/image/2022/08/09/1_1db2488f17-anonymous.png";
+        User user = new User(null, username, encodedPassword, photo,1500, email);
         userMapper.insert(user);
 
         map.put("error_message", "success");
